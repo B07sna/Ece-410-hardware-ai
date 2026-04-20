@@ -1,0 +1,67 @@
+==================================================
+Device Detection
+==================================================
+CUDA available   : True
+Device index     : 0
+Device name      : NVIDIA GeForce RTX 3070 Ti
+CUDA capability  : (8, 6)
+Total VRAM       : 8.59 GB
+PyTorch version  : 2.11.0+cu126
+
+==================================================
+Network Definition
+==================================================
+SmallNet(
+  (fc1): Linear(in_features=4, out_features=5, bias=True)
+  (relu): ReLU()
+  (fc2): Linear(in_features=5, out_features=1, bias=True)
+)
+
+Total parameters : 31
+  fc1 weight     : torch.Size([5, 4])  (20 values)
+  fc1 bias       : torch.Size([5])
+  fc2 weight     : torch.Size([1, 5])  (5 values)
+  fc2 bias       : torch.Size([1])
+
+==================================================
+Moving Model to GPU
+==================================================
+Model device (fc1.weight) : cuda:0
+Model device (fc2.weight) : cuda:0
+
+==================================================
+Forward Pass
+==================================================
+Input shape   : [16, 4]
+Input device  : cuda:0
+
+Output shape  : [16, 1]
+Output device : cuda:0
+
+Output values (16 × 1):
+tensor([[-0.5190],
+        [-0.9776],
+        [-0.4140],
+        [-0.5026],
+        [-0.6761],
+        [-0.2882],
+        [-0.5432],
+        [-0.4552],
+        [-0.4238],
+        [-0.7506],
+        [-0.4097],
+        [-0.4871],
+        [-0.5860],
+        [-0.4406],
+        [-0.5106],
+        [-0.4109]], device='cuda:0')
+
+==================================================
+Summary
+==================================================
+  Input  : [16, 4]  on  cuda:0
+  Output : [16, 1]  on  cuda:0
+  Min    : -0.977628
+  Max    : -0.288178
+  Mean   : -0.524701
+==================================================
