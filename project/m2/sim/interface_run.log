@@ -1,0 +1,43 @@
+=== tb_interface ===
+DUT: axi_stream_ctrl  IMG=6x6  KSZ=3  QS=4
+
+--- Test 1: AXI4-Lite write QUANT_CFG=4 (addr=0x10) ---
+  BRESP                  got=0x0  exp=0x0  PASS
+--- Test 2: Read STATUS (0x04) ---
+  STATUS                 got=0x00000001  exp=0x00000001  PASS
+--- Test 3: Read IMG_CFG (0x08) ---
+  IMG_CFG                got=0x00060006  exp=0x00060006  PASS
+--- Test 4: Full 6x6 inference ---
+[SIM] Loading weights...
+[SIM] Writing START...
+[SIM] Streaming 6x6 pixels...
+  [0][0]  got=   8  exp=   8  PASS
+  [0][1]  got=   9  exp=   9  PASS
+  [0][2]  got=  10  exp=  10  PASS
+  [0][3]  got=  11  exp=  11  PASS
+  [1][0]  got=  14  exp=  14  PASS
+  [1][1]  got=  15  exp=  15  PASS
+  [1][2]  got=  16  exp=  16  PASS
+  [1][3]  got=  17  exp=  17  PASS
+  [2][0]  got=  20  exp=  20  PASS
+  [2][1]  got=  21  exp=  21  PASS
+  [2][2]  got=  22  exp=  22  PASS
+  [2][3]  got=  23  exp=  23  PASS
+  [3][0]  got=  26  exp=  26  PASS
+  [3][1]  got=  27  exp=  27  PASS
+  [3][2]  got=  28  exp=  28  PASS
+  [3][3]  got=  29  exp=  29  PASS
+[SIM] Inference done: pass=19 fail=0
+--- Test 5: Read STATUS (should be DONE) ---
+  STATUS                 got=0x00000004  exp=0x00000004  PASS
+--- Test 6: IRQ assertion ---
+  irq                    got=1  exp=1  PASS
+--- Test 7: IRQ_STAT W1C clear ---
+  IRQ_STAT               got=0x00000000  exp=0x00000000  PASS
+  irq deasserted         got=0  exp=0  PASS
+
+=== Summary ===
+Total checks : 23
+PASS         : 23
+FAIL         : 0
+STATUS: PASS
