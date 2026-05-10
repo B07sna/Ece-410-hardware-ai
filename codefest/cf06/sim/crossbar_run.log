@@ -1,0 +1,24 @@
+=== iverilog compilation ===
+Compile exit code: 0
+
+=== vvp simulation ===
+============================================
+  crossbar_mac  4x4 binary-weight MAC TB
+============================================
+  W[i][j]  (row i, col j):
+    row0: [ 1, -1,  1, -1]
+    row1: [ 1,  1, -1, -1]
+    row2: [-1,  1,  1, -1]
+    row3: [-1, -1, -1,  1]
+  in = [10, 20, 30, 40]
+  out[j] = sum_i W[i][j]*in[i]
+--------------------------------------------
+  out[0]: expected= -40  got= -40  --> PASS
+  out[1]: expected=   0  got=   0  --> PASS
+  out[2]: expected= -20  got= -20  --> PASS
+  out[3]: expected= -20  got= -20  --> PASS
+--------------------------------------------
+  RESULT: ALL 4/4 PASSED --> PASS
+============================================
+C:/Users/Husai/Ece-410-hardware-ai/codefest/cf06/hdl/crossbar_tb.sv:200: $finish called at 216000 (1ps)
+Sim exit code: 0
