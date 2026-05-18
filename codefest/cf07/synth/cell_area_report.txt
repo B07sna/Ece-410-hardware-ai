@@ -1,0 +1,33 @@
+
+16. Printing statistics.
+
+=== crossbar_mac ===
+
+   Number of wires:               1509
+   Number of wire bits:           1788
+   Number of public wires:          33
+   Number of public wire bits:     312
+   Number of ports:                 13
+   Number of port bits:            168
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1620
+     AND2                          178
+     AOI21                         217
+     BUF                            71
+     DFF                           144
+     INV                            60
+     MUX2                          127
+     NAND2                         174
+     NAND3                          21
+     NOR2                          148
+     NOR3                           51
+     OAI21                         176
+     OR2                            64
+     XNOR2                         159
+     XOR2                           30
+
+   Chip area for module '\crossbar_mac': 4131.000000
+     of which used for sequential elements: 864.000000 (20.92%)
+

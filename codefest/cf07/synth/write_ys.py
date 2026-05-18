@@ -1,0 +1,54 @@
+import os
+
+# Write the constr file (abc constraint for driving cell / load)
+constr = "set_driving_cell INV\nset_load 0.01\n"
+with open('/mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/synth/abc.constr', 'w', newline='\n') as f:
+    f.write(constr)
+
+script = r"""# Yosys synthesis script -- crossbar_mac
+# Target: generic 130 nm standard-cell library, 10 ns clock (100 MHz)
+# Usage: wsl yosys -s /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/synth/crossbar_mac.ys
+
+# 1. Read and elaborate
+read_verilog -sv /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/hdl/synth_top.sv
+hierarchy -check -top crossbar_mac
+
+# 2. High-level synthesis
+proc
+opt
+fsm
+opt
+memory -nomap
+opt
+
+# 3. Technology-independent optimisation
+techmap
+opt
+
+# 4. Convert synchronous-reset DFFs to async-reset before library mapping
+dfflegalize -cell $_DFF_P_ 0 -cell $_DFF_PP0_ 0
+
+# 5. Map DFFs to library cells (DFF -> $_DFF_P_, DFFR -> $_DFF_PP0_)
+dfflibmap -liberty /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/hdl/generic_130nm.lib
+
+# 6. Combinational mapping with 10 ns delay target (10000 ps) + constr for stime
+abc -liberty /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/hdl/generic_130nm.lib -D 10000 -constr /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/synth/abc.constr
+
+opt_clean
+
+# 7. Flatten for timing analysis
+flatten
+
+# 8. Cell-count and area report
+tee -o /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/synth/cell_area_report.txt stat -liberty /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/hdl/generic_130nm.lib
+
+# 9. Static timing analysis (Yosys built-in -- informational, cell names logged)
+tee -o /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/synth/timing_report.txt sta
+
+# 10. Write gate-level netlist
+write_verilog -noattr /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/synth/netlist.v
+"""
+
+with open('/mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/synth/crossbar_mac.ys', 'w', newline='\n') as f:
+    f.write(script)
+print('crossbar_mac.ys and abc.constr written with LF endings')

@@ -1,0 +1,56 @@
+=== Timing Report: crossbar_mac
+=== Tool: Yosys 0.52 + ABC  |  Library: generic_130nm (130 nm educational)
+=== Clock target: 10.00 ns (100 MHz)  |  Date: 2026-05-17
+
+--- ABC stime Report (from synth.log step 13: abc -liberty -D 10000 -constr) ---
+
+  WireLoad = "none"   Gates = 1476 (8.9%)   Area = 3267.00   Delay = 5380.00 ps
+
+  Timing status: CLOSED
+    Current delay (5380.00 ps) does not exceed target (10000.00 ps).
+    Upsizing not performed.
+
+  Critical Path (21 stages, primary-input -> primary-output):
+    Stage  0  in0[1]        --  primary input (activation bit)
+    Stage  1  MUX2   x4     Df =  630.0 ps   weight-gated add/sub mux
+    Stage  2  XNOR2  x3     Df =  980.0 ps   partial sum XOR bits 0..2
+    Stage  3  AOI21  x2     Df = 1140.0 ps   carry generate
+    Stage  4  OAI21  x2     Df = 1340.0 ps   carry propagate
+    Stage  5  MUX2   x1     Df = 1620.0 ps   partial sum mux
+    Stage  6  XNOR2  x6     Df = 1970.0 ps   bits 3..8 sum
+    Stage  7  XNOR2  x1     Df = 2320.0 ps   bit 9 sum
+    Stage  8  AOI21  x2     Df = 2480.0 ps   carry gen bits 9..10
+    Stage  9  OAI21  x2     Df = 2680.0 ps   carry prop bits 9..10
+    Stage 10  MUX2   x1     Df = 2960.0 ps   sum mux bit 11
+    Stage 11  XNOR2  x5     Df = 3310.0 ps   bits 12..16 sum
+    Stage 12  XNOR2  x1     Df = 3660.0 ps   bit 17 sum
+    Stage 13  OAI21  x2     Df = 3820.0 ps   carry prop bits 17..18
+    Stage 14  AOI21  x2     Df = 4020.0 ps   carry gen bits 19..20
+    Stage 15  OAI21  x2     Df = 4180.0 ps   carry prop bits 19..20
+    Stage 16  AOI21  x1     Df = 4380.0 ps   carry gen bit 21
+    Stage 17  XNOR2  x2     Df = 4730.0 ps   bits 22..23 sum
+    Stage 18  MUX2   x4     Df = 5010.0 ps   output select mux
+    Stage 19  BUF    x10    Df = 5140.0 ps   fanout buffer
+    Stage 20  AND2   x1     Df = 5380.0 ps   output enable / mux
+
+    Start-point: in0[1]  (DFFR Q, bit 1 of activation input 0)
+    End-point  : MuxGate DFF D input (output register data path)
+
+--- Derived Register-to-Register Timing ---
+
+  Combinational delay (abc stime) :  5.38 ns
+  DFFR clock-to-Q (Q timing arc)  : +0.30 ns
+  DFF setup time (130 nm est.)    : +0.18 ns
+                                   ----------
+  Total register-to-register path :  5.86 ns
+  Clock period                    : 10.00 ns
+  Worst-case slack (WNS)          : +4.14 ns  POSITIVE -- TIMING MET
+
+  Maximum achievable frequency    : ~171 MHz  (1 / 5.86 ns)
+
+--- Note on Yosys Built-in STA ---
+
+  Yosys 0.52 sta does not recognise liberty-mapped cell names (AND2, NAND2...).
+  All cells logged as 'not recognised -- ignoring.'
+  The ABC stime report above is the authoritative timing source.
+  Full synthesis log (including ABC output) saved in synth.log.

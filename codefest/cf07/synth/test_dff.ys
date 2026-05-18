@@ -1,0 +1,9 @@
+read_verilog -sv /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/hdl/synth_top.sv
+hierarchy -check -top crossbar_mac
+proc
+opt
+techmap
+opt
+dfflegalize -cell $_DFF_P_ 0 -cell $_DFF_PP0_ 0
+dfflibmap -liberty /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/hdl/generic_130nm.lib
+stat -liberty /mnt/c/Users/Husai/Ece-410-hardware-ai/codefest/cf07/hdl/generic_130nm.lib
