@@ -1,0 +1,40 @@
+=== Power Report — M3 top Module ===
+=== Tool: Yosys 0.52 (fallback) | Library: generic_130nm | Date: 2026-05-24 ===
+
+NOTE: OpenLane 2 power estimation was not available for this milestone.
+
+OpenLane 2 was attempted on the host machine (Windows 11, Python 3.14) but the
+installation failed during the klayout Python binding step.  The klayout package
+(required by OpenLane 2's DRC and antenna-check flows) does not yet publish a
+compiled wheel for Python 3.14, and source compilation was unsuccessful due to
+missing Qt5 development headers in the MSYS2 environment.
+
+Yosys 0.52 was used as a synthesis fallback.  Yosys does not include a built-in
+power estimator; the values below are derived from standard academic estimates
+for a 130 nm generic library running at 100 MHz.
+
+--- Estimated Power (academic model, 130 nm, 100 MHz) ---
+
+  Dynamic power estimate
+    Cell count          : 1549 (combinational + sequential)
+    Sequential cells    : ~144 DFFs  x  6 uW/FF  = 0.86 mW
+    Combinational cells : ~1405 gates x  1.2 uW/gate = 1.69 mW
+    Total dynamic       : ~2.55 mW  (rough order-of-magnitude)
+
+  Static (leakage) power estimate
+    Per-cell leakage (130 nm typical) : ~50 nW/cell
+    Total leakage                     : ~78 uW
+
+  Total estimated power               : ~2.63 mW @ 100 MHz, typical corner
+
+--- Disclaimer ---
+
+These figures are rough academic estimates only.  Accurate power analysis
+requires:
+  1. A characterised liberty file with internal/switching/leakage tables.
+  2. Annotated switching activity (VCD back-annotation).
+  3. A place-and-route netlist with parasitics.
+All of the above would be available in a full OpenLane 2 run.
+
+For M4, a Docker-based OpenLane 2 environment will be used on a Linux host to
+obtain proper power, area, and timing sign-off reports.

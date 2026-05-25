@@ -1,0 +1,26 @@
+=== tb_top — M3 End-to-End Co-Simulation ===
+DUT : top -> axi_stream_ctrl -> compute_core
+Test: 3x3 all-ones kernel, pixels 1..9, expected output = 0
+      (sum=45, QUANT_SHIFT=8 => 45>>8 = 0)
+
+--- Phase 1: Load 9 weights (all +1) via s_axis_weight ---
+  Weights loaded.
+--- Phase 2: Write CTRL[0]=1 (START) via AXI4-Lite ---
+  CTRL write BRESP = OKAY  PASS
+--- Phase 3: Stream 3x3 pixels (1..9) via s_axis_pixel ---
+  Pixel streaming complete.
+--- Test: Output comparison ---
+  Kernel: all-ones 3x3
+  Pixels: 1..9 (sum=45)
+  QUANT_SHIFT=8  => 45>>8 = 0
+  Expected result :    0
+  Captured result :    0
+  Output match    : PASS
+--- AXI4-Lite read STATUS (0x04) ---
+  STATUS = 0x00000004
+  DONE bit set     : PASS
+
+=== Summary ===
+Checks PASS : 3
+Checks FAIL : 0
+STATUS: PASS

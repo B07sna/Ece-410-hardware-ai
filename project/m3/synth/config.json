@@ -1,0 +1,24 @@
+{
+  "design_name": "top",
+  "clock_period_ns": 10,
+  "clock_net": "clk",
+  "source_files": [
+    "../../m2/rtl/compute_core.sv",
+    "../../m2/rtl/interface.sv",
+    "../rtl/top.sv"
+  ],
+  "top_module": "top",
+  "tool": "Yosys 0.52 + ABC",
+  "library": "generic_130nm (130 nm educational liberty)",
+  "tool_note": "OpenLane 2 installation was attempted but failed due to klayout incompatibility with Python 3.14 on the host system. Yosys 0.52 was used as a fallback for logic synthesis and ABC for technology-mapped timing estimation.",
+  "parameters": {
+    "AXIL_AW":    8,
+    "AXIL_DW":    32,
+    "STREAM_W":   8,
+    "KSZ":        3,
+    "IMG_W_DEF":  224,
+    "IMG_H_DEF":  224,
+    "NUM_CH_DEF": 32,
+    "QS_DEF":     8
+  }
+}
