@@ -42,7 +42,7 @@ $$= 4 \times 262\,144 = \boxed{1\,048\,576 \text{ bytes}} \approx 1 \text{ MB}$$
 
 ---
 
-## (b) Sparse CSR Matrix–Vector Multiply
+## (b) Sparse CSR Matrix–Vector Multiply — **Task 1: Sparse Memory Footprint**
 
 ### CSR storage format
 
@@ -54,13 +54,26 @@ Compressed Sparse Row (CSR) stores only the non-zero values:
 | `col_index[nnz]` | (1−s)·N² | 4 (int32) | 4·(1−s)·N² |
 | `row_ptr[N+1]` | N+1 | 4 (int32) | 4·(N+1) |
 
-Total:
+Summing all three arrays gives the sparse memory formula:
 
-$$\text{Bytes}_\text{CSR}(s) = 8(1-s)N^2 + 4(N+1)$$
+```
+sparse_bytes = 8*N^2*(1-s) + 4*(N+1)
+```
 
-Numerically (N = 512, N+1 = 513):
+$$\text{sparse\_bytes} = 8 \times N^2 \times (1-s) + 4 \times (N+1)$$
 
-$$\text{Bytes}_\text{CSR}(s) = 8 \times (1-s) \times 262\,144 + 4 \times 513$$
+**Substituting N = 512, s = 0.90:**
+
+```
+sparse_bytes = 8 * 512^2 * (1 - 0.90) + 4 * (512 + 1)
+             = 8 * 262,144 * 0.10 + 4 * 513
+             = 209,715 + 2,052
+             = 211,767 bytes  ≈ 207 KB
+```
+
+In general (N = 512, N+1 = 513):
+
+$$\text{sparse\_bytes}(s) = 8 \times (1-s) \times 262\,144 + 4 \times 513$$
 
 $$= 2\,097\,152\,(1-s) + 2\,052 \text{ bytes}$$
 
@@ -74,14 +87,17 @@ $$= 524\,288 \cdot (1-s) \text{ FLOPs}$$
 
 ---
 
-## (c) FLOPs Speedup and Compute Breakeven
+## (c) FLOPs Speedup and Compute Breakeven — **Task 2: FLOPs Speedup**
 
 ### Speedup formula
 
-$$\text{Speedup}_\text{FLOPs}(s)
-  = \frac{\text{FLOPs}_\text{dense}}{\text{FLOPs}_\text{CSR}(s)}
-  = \frac{2N^2}{2N^2(1-s)}
-  = \frac{1}{1-s}$$
+```
+speedup = dense_FLOPs / sparse_FLOPs
+        = 2*N^2 / (2*N^2*(1-s))
+        = 1 / (1-s)
+```
+
+$$\text{speedup} = \frac{1}{1-s}$$
 
 | Sparsity s | 1 − s | Compute speedup |
 |------------|-------|-----------------|
@@ -94,9 +110,17 @@ $$\text{Speedup}_\text{FLOPs}(s)
 
 ### Solve for 2× compute speedup
 
-$$\frac{1}{1-s} = 2 \implies 1-s = \tfrac{1}{2} \implies \boxed{s = 0.50}$$
+Setting `speedup = 1/(1-s) = 2` and solving for s:
 
-**At 50% sparsity the sparse MVM executes exactly half as many FLOPs as dense.**
+```
+1 / (1-s) = 2
+1 - s = 1/2
+s = 1/2 = 0.5
+```
+
+$$\frac{1}{1-s} = 2 \implies 1-s = \tfrac{1}{2} \implies \boxed{s = 0.5}$$
+
+**At s = 0.5 (50% sparsity), half the multiplications are skipped, giving exactly 2× speedup.**
 
 ---
 
